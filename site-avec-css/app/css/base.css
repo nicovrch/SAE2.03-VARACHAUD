@@ -1,0 +1,22 @@
+@layer reset, variables, base, components, utilities;
+
+@import "./reset.css" layer(reset);
+@import "./variables.css" layer(variables);
+@import "./utilities.css" layer(utilities);
+
+@import "../component/NavBar/style.css" layer(components);
+@import "../component/MovieCategory/style.css" layer(components);
+@import "../component/MovieFeatured/style.css" layer(components);
+@import "../component/Movie/style.css" layer(components);
+@import "../component/MovieDetail/style.css" layer(components);
+@import "../component/Stats/style.css" layer(components);
+@import "../component/Favorites/style.css" layer(components);
+
+@layer base {
+  body {
+    font-family: var(--ff-sans);
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    margin: 0;
+  }
+}

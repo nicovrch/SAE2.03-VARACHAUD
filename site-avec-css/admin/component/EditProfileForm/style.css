@@ -1,0 +1,22 @@
+.editProfile {
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+.editProfile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.editProfile__form input,
+.editProfile__form select {
+  padding: 0.4rem;
+  font-size: 1rem;
+}
+
+.editProfile__form input[type="button"] {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}

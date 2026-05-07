@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 APP - Statistiques</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+
+  <body>
+    <header id="header"></header>
+    <section id="stats"></section>
+
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { Stats } from "./component/Stats/script.js";
+      import { DataProfile } from "./data/dataProfile.js";
+      import { DataStats } from "./data/dataStats.js";
+
+      let profilActif = null;
+      let queryString = location.search;
+      if (queryString !== "") {
+        let parts = queryString.split("=");
+        profilActif = parts[1];
+      }
+
+      window.C = {};
+
+      C.handlerAbout = function () {
+        alert("Ceci est une base de projet pour la SAE2.03 édition 2025.");
+      };
+
+      C.handlerSelectProfile = function (id) {
+        if (id === "") {
+          location.href = "stats.html";
+        } else {
+          location.href = "stats.html?id_profile=" + id;
+        }
+      };
+
+      C.start = async function () {
+        let profiles = await DataProfile.read();
+        V.renderNavBar("C.handlerAbout()", "C.handlerSelectProfile", profiles, profilActif);
+        let stats = await DataStats.read();
+        V.renderStats(stats);
+      };
+
+      window.V = {};
+
+      V.renderNavBar = function (hAbout, hSelectProfile, profiles, profilActif) {
+        let header = document.querySelector("#header");
+        header.innerHTML = NavBar.format(hAbout, hSelectProfile, profiles, profilActif);
+      };
+
+      V.renderStats = function (stats) {
+        let content = document.querySelector("#stats");
+        content.innerHTML = Stats.format(stats);
+      };
+
+      C.start();
+    </script>
+  </body>
+</html>

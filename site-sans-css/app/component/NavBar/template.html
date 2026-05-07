@@ -1,0 +1,12 @@
+<nav class="navbar font-sans">
+  <ul class="navbar__list">
+    <li><a class="navbar__item" href="{{homeLink}}">Films</a></li>
+    {{favoriteLink}}
+    <li><a class="navbar__item" href="{{statsLink}}">Statistiques</a></li>
+    <li class="navbar__item" onclick="{{hAbout}}">About</li>
+  </ul>
+  <select class="navbar__profile" onchange="{{hSelectProfile}}(this.value)">
+    <option value="">-- Profil --</option>
+    {{profiles}}
+  </select>
+</nav>

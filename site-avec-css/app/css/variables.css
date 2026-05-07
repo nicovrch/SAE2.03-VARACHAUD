@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* Primitive Tokens */
+  --color-black: #0e0e16;
+  --color-dark: #1c1c26;
+  --color-border: #2a2a35;
+  --color-white: #eeeeee;
+  --color-gray: #999999;
+  --color-red: #e22d41;
+  --color-purple: #624294;
+  --ff-sans: "Inter", sans-serif;
+
+  /* Semantic Tokens */
+  --color-bg: var(--color-black);
+  --color-bg-card: var(--color-dark);
+  --color-border-subtle: var(--color-border);
+  --color-fg: var(--color-white);
+  --color-fg-secondary: var(--color-gray);
+  --color-accent: var(--color-red);
+  --color-accent-secondary: var(--color-purple);
+}

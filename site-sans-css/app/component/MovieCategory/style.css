@@ -1,0 +1,26 @@
+.category {
+  padding: 1rem 0;
+}
+
+.category__title {
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+  padding: 0 1rem;
+
+  @media (min-width: 64rem) {
+    padding: 0 2rem;
+  }
+}
+
+.category__movies {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0 1rem 1rem;
+
+  @media (min-width: 64rem) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 0 2rem 2rem;
+  }
+}

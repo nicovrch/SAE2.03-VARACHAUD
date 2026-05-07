@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 APP - Favoris</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+
+  <body>
+    <header id="header"></header>
+    <section class="favorites" id="favorites">
+      <h1 class="favorites__title">Mes favoris</h1>
+      <div id="favorites-list" class="favorites__list"></div>
+      <div class="favorites__nav">
+        <button class="favorites__btn" aria-label="Favori précédent" onclick="C.handlerFavoritesPrev()">‹</button>
+        <button class="favorites__btn" aria-label="Favori suivant" onclick="C.handlerFavoritesNext()">›</button>
+      </div>
+    </section>
+
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { Movie } from "./component/Movie/script.js";
+      import { DataProfile } from "./data/dataProfile.js";
+      import { DataFavorite } from "./data/dataFavorite.js";
+
+      let profilActif = null;
+      let queryString = location.search;
+      if (queryString != "") {
+        let parts = queryString.split("=");
+        profilActif = parts[1];
+      }
+
+      window.C = {};
+
+      C.handlerAbout = function () {
+        alert("Ceci est une base de projet pour la SAE2.03 édition 2025.");
+      };
+
+      C.handlerSelectProfile = function (id) {
+        if (id == "") {
+          location.href = "index.html";
+        } else {
+          location.href = "favorites.html?id_profile=" + id;
+        }
+      };
+
+      C.handlerRemoveFavorite = async function (id_movie) {
+        let res = await DataFavorite.remove(profilActif, id_movie);
+        alert(res);
+        location.reload();
+      };
+
+      C.handlerFavoritesPrev = function () {
+        let list = document.querySelector("#favorites-list");
+        list.scrollLeft = list.scrollLeft - 320;
+      };
+
+      C.handlerFavoritesNext = function () {
+        let list = document.querySelector("#favorites-list");
+        list.scrollLeft = list.scrollLeft + 320;
+      };
+
+      C.start = async function () {
+        let profiles = await DataProfile.read();
+        V.renderNavBar("C.handlerAbout()", "C.handlerSelectProfile", profiles, profilActif);
+        if (profilActif == null) {
+          V.renderEmpty();
+          return;
+        }
+        let favorites = await DataFavorite.read(profilActif);
+        let favoriteIds = [];
+        for (let fav of favorites) {
+          favoriteIds.push(fav.id);
+        }
+        V.renderFavorites(favorites, favoriteIds);
+      };
+
+      window.V = {};
+
+      V.renderNavBar = function (hAbout, hSelectProfile, profiles, profilActif) {
+        let header = document.querySelector("#header");
+        header.innerHTML = NavBar.format(hAbout, hSelectProfile, profiles, profilActif);
+      };
+
+      V.renderEmpty = function () {
+        let content = document.querySelector("#favorites-list");
+        content.innerHTML = "<p>Sélectionne un profil pour voir tes favoris.</p>";
+      };
+
+      V.renderFavorites = function (favorites, favoriteIds) {
+        let content = document.querySelector("#favorites-list");
+        if (favorites.length == 0) {
+          content.innerHTML = "<p>Votre liste de favoris est vide.</p>";
+        } else {
+          content.innerHTML = Movie.formatMany(favorites, favoriteIds, true);
+        }
+      };
+
+      C.start();
+    </script>
+  </body>
+</html>

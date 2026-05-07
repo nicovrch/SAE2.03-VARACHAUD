@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 ADMIN</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+  <body>
+    <section id="log"></section>
+
+    <section id="addMovie"></section>
+
+    <section id="addProfile"></section>
+
+    <section id="editProfile"></section>
+
+    <script type="module">
+      import { Log } from "./component/Log/script.js";
+      import { MovieForm } from "./component/MovieForm/script.js";
+      import { ProfileForm } from "./component/ProfileForm/script.js";
+      import { EditProfileForm } from "./component/EditProfileForm/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
+
+      let profiles = [];
+      window.C = {};
+
+      C.handlerAddMovie = async function () {
+        let form = document.querySelector(".addMovie__form");
+        let fd = new FormData(form);
+        let res = await DataMovie.add(fd);
+        V.renderLog(res);
+      };
+
+      C.handlerAddProfile = async function () {
+        let form = document.querySelector(".addProfile__form");
+        let fd = new FormData(form);
+        let res = await DataProfile.add(fd);
+        V.renderLog(res);
+      };
+
+      C.handlerSelectProfileToEdit = function (id) {
+        let form = document.querySelector(".editProfile__form");
+        for (let profile of profiles) {
+          if (profile.id == id) {
+            form.querySelector('input[name="name"]').value = profile.name;
+            form.querySelector('select[name="min_age"]').value = profile.min_age;
+          }
+        }
+      };
+
+      C.handlerUpdateProfile = async function () {
+        let form = document.querySelector(".editProfile__form");
+        let fd = new FormData(form);
+        let res = await DataProfile.update(fd);
+        V.renderLog(res);
+      };
+
+      C.start = async function () {
+        V.renderLog("Démarrage de l'application");
+        V.renderMovieForm("C.handlerAddMovie()");
+        V.renderProfileForm("C.handlerAddProfile()");
+        profiles = await DataProfile.read();
+        V.renderEditProfileForm(profiles, "C.handlerSelectProfileToEdit", "C.handlerUpdateProfile()");
+      };
+
+      window.V = {};
+
+      V.renderLog = function (txt) {
+        let content = document.querySelector("#log");
+        content.innerHTML = Log.format(txt);
+      };
+
+      V.renderMovieForm = function (handler) {
+        let content = document.querySelector("#addMovie");
+        content.innerHTML = MovieForm.format(handler);
+      };
+
+      V.renderProfileForm = function (handler) {
+        let content = document.querySelector("#addProfile");
+        content.innerHTML = ProfileForm.format(handler);
+      };
+
+      V.renderEditProfileForm = function (profiles, handlerSelect, handler) {
+        let content = document.querySelector("#editProfile");
+        content.innerHTML = EditProfileForm.format(profiles, handlerSelect, handler);
+      };
+
+      C.start();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 APP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+
+  <body>
+    <header id="header"></header>
+    <section id="featured"></section>
+    <section id="categories"></section>
+
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { MovieCategory } from "./component/MovieCategory/script.js";
+      import { MovieFeatured } from "./component/MovieFeatured/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
+      import { DataFavorite } from "./data/dataFavorite.js";
+
+      let profilActif = null;
+      let queryString = location.search;
+      if (queryString !== "") {
+        let parts = queryString.split("=");
+        profilActif = parts[1];
+      }
+
+      let profiles = [];
+      let favoriteIds = [];
+      window.C = {};
+
+      C.handlerAbout = function () {
+        alert("Ceci est une base de projet pour la SAE2.03 édition 2025.");
+      };
+
+      C.handlerSelectProfile = function (id) {
+        if (id === "") {
+          location.href = "index.html";
+        } else {
+          location.href = "index.html?id_profile=" + id;
+        }
+      };
+
+      C.handlerAddFavorite = async function (id_movie) {
+        let res = await DataFavorite.add(profilActif, id_movie);
+        alert(res);
+        location.reload();
+      };
+
+      C.start = async function () {
+        profiles = await DataProfile.read();
+        V.renderNavBar("C.handlerAbout()", "C.handlerSelectProfile", profiles, profilActif);
+        if (profilActif === null) {
+          let featured = await DataMovie.requestFeatured(99);
+          V.renderFeatured(featured);
+          V.renderWelcome();
+          return;
+        }
+        let age = 99;
+        for (let profile of profiles) {
+          if (profile.id == profilActif) {
+            age = profile.min_age;
+          }
+        }
+        let favorites = await DataFavorite.read(profilActif);
+        favoriteIds = [];
+        for (let fav of favorites) {
+          favoriteIds.push(fav.id);
+        }
+        let featured = await DataMovie.requestFeatured(age);
+        V.renderFeatured(featured);
+        let data = await DataMovie.requestMovies(age);
+        let categories = [];
+        for (let name in data) {
+          categories.push({ name: name, movies: data[name] });
+        }
+        V.renderCategories(categories);
+      };
+
+      window.V = {};
+
+      V.renderNavBar = function (hAbout, hSelectProfile, profiles, profilActif) {
+        let header = document.querySelector("#header");
+        header.innerHTML = NavBar.format(hAbout, hSelectProfile, profiles, profilActif);
+      };
+
+      V.renderWelcome = function () {
+        let content = document.querySelector("#categories");
+        content.innerHTML = "<p class='welcome'>Bienvenue ! Sélectionne un profil pour commencer.</p>";
+      };
+
+      V.renderFeatured = function (featured) {
+        let content = document.querySelector("#featured");
+        if (featured.length === 0) {
+          content.innerHTML = "<p>Aucun film mis en avant pour le moment.</p>";
+        } else {
+          content.innerHTML = "<h2 class='featured__heading'>Films mis en avant</h2>" + MovieFeatured.formatMany(featured);
+        }
+      };
+
+      V.renderCategories = function (categories) {
+        let content = document.querySelector("#categories");
+        if (categories.length === 0) {
+          content.innerHTML = "<p>Aucun film disponible pour votre tranche d'âge.</p>";
+        } else {
+          content.innerHTML = MovieCategory.formatMany(categories, favoriteIds);
+        }
+      };
+
+      C.start();
+    </script>
+  </body>
+</html>

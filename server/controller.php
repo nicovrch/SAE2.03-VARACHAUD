@@ -22,6 +22,118 @@ require("model.php");
 
 
 function readMoviesController(){
-    $movies = getAllMovies();
+    $age = $_REQUEST['age'];
+    $movies = getMoviesGroupedByCategory($age);
     return $movies;
+}
+
+
+function readMovieDetailController(){
+    if (isset($_REQUEST['id']) == false || empty($_REQUEST['id']) == true){
+        return false;
+    }
+    $id = $_REQUEST['id'];
+    $movie = getMovieDetail($id);
+    return $movie;
+}
+
+
+function addMovieController(){
+    $name = $_REQUEST['name'];
+    $year = $_REQUEST['year'];
+    $length = $_REQUEST['length'];
+    $description = $_REQUEST['description'];
+    $director = $_REQUEST['director'];
+    $id_category = $_REQUEST['id_category'];
+    $image = $_REQUEST['image'];
+    $trailer = $_REQUEST['trailer'];
+    $min_age = $_REQUEST['min_age'];
+
+    $ok = insertMovie($name, $year, $length, $description, $director, $id_category, $image, $trailer, $min_age);
+
+    if ($ok != 0){
+        return "Le film \"$name\" a été ajouté";
+    }
+    else{
+        return false;
+    }
+}
+
+function addProfileController(){
+    $name = $_REQUEST['name'];
+    $min_age = $_REQUEST['min_age'];
+
+    $ok = insertProfile($name, $min_age);
+
+    if ($ok != 0){
+        return "Le profil \"$name\" a été ajouté";
+    }
+    else{
+        return false;
+    }
+}
+
+function readProfilesController(){
+    $profiles = getAllProfiles();
+    return $profiles;
+}
+
+function updateProfileController(){
+    $id = $_REQUEST['id'];
+    $name = $_REQUEST['name'];
+    $min_age = $_REQUEST['min_age'];
+
+    $ok = updateProfile($id, $name, $min_age);
+
+    if ($ok != 0){
+        return "Le profil \"$name\" a été modifié";
+    }
+    else{
+        return false;
+    }
+}
+
+function addFavoriteController(){
+    $id_profile = $_REQUEST['id_profile'];
+    $id_movie = $_REQUEST['id_movie'];
+
+    $ok = insertFavorite($id_profile, $id_movie);
+
+    if ($ok != 0){
+        return "Le film a été ajouté à vos favoris";
+    }
+    else{
+        return "Ce film est déjà dans vos favoris";
+    }
+}
+
+function readFavoritesController(){
+    $id_profile = $_REQUEST['id_profile'];
+    $favorites = getFavoritesByProfile($id_profile);
+    return $favorites;
+}
+
+function removeFavoriteController(){
+    $id_profile = $_REQUEST['id_profile'];
+    $id_movie = $_REQUEST['id_movie'];
+
+    $ok = removeFavorite($id_profile, $id_movie);
+
+    if ($ok != 0){
+        return "Le film a été retiré de vos favoris";
+    }
+    else{
+        return false;
+    }
+}
+
+function readFeaturedController(){
+    $age = $_REQUEST['age'];
+    $movies = getFeaturedMovies($age);
+    return $movies;
+}
+
+function readStatsController(){
+    $stats = getStats();
+    return $stats;
 }

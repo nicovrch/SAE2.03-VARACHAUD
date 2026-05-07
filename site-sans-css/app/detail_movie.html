@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>SAE2.03 APP - Détail</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+
+  <body>
+    <header id="header"></header>
+
+    <section id="detail"></section>
+
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { MovieDetail } from "./component/MovieDetail/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
+      import { DataProfile } from "./data/dataProfile.js";
+
+      let queryString = location.search;
+      let parts = queryString.split("=");
+      let id = parts[1];
+
+      window.C = {};
+
+      C.handlerAbout = function () {
+        alert("Ceci est une base de projet pour la SAE2.03 édition 2025.");
+      };
+
+      C.handlerSelectProfile = function (selectedId) {
+        if (selectedId === "") {
+          location.href = "index.html";
+        } else {
+          location.href = "index.html?id_profile=" + selectedId;
+        }
+      };
+
+      C.start = async function () {
+        let profiles = await DataProfile.read();
+        V.renderNavBar("C.handlerAbout()", "C.handlerSelectProfile", profiles, null);
+        let movie = await DataMovie.requestMovieDetails(id);
+        V.renderMovieDetail(movie);
+      };
+
+      window.V = {};
+
+      V.renderNavBar = function (hAbout, hSelectProfile, profiles, profilActif) {
+        let header = document.querySelector("#header");
+        header.innerHTML = NavBar.format(hAbout, hSelectProfile, profiles, profilActif);
+      };
+
+      V.renderMovieDetail = function (movie) {
+        let detail = document.querySelector("#detail");
+        detail.innerHTML = MovieDetail.format(movie);
+      };
+
+      C.start();
+    </script>
+  </body>
+</html>

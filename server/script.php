@@ -1,4 +1,10 @@
 <?php
+// Activer le rapport d'erreurs PHP
+error_reporting(E_ALL);
+
+// Forcer l'affichage des erreurs à l'écran
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 /** ARCHITECTURE PHP SERVEUR : Rôle du fichier script.php
  * 
  * Ce fichier est celui à qui on adresse toutes les requêtes HTTP.
@@ -56,6 +62,45 @@ if ( isset($_REQUEST['todo']) ){
       $data = readMoviesController();
       break;
 
+    case 'addMovie':
+      $data = addMovieController();
+      break;
+
+    case 'readMovieDetail':
+      $data = readMovieDetailController();
+      break;
+
+    case 'addProfile':
+      $data = addProfileController();
+      break;
+
+    case 'readProfiles':
+      $data = readProfilesController();
+      break;
+
+    case 'updateProfile':
+      $data = updateProfileController();
+      break;
+
+    case 'addFavorite':
+      $data = addFavoriteController();
+      break;
+
+    case 'readFavorites':
+      $data = readFavoritesController();
+      break;
+
+    case 'removeFavorite':
+      $data = removeFavoriteController();
+      break;
+
+    case 'readFeatured':
+      $data = readFeaturedController();
+      break;
+
+    case 'readStats':
+      $data = readStatsController();
+      break;
 
     default: // il y a un paramètre todo mais sa valeur n'est pas reconnue/supportée
       echo json_encode('[error] Unknown todo value');

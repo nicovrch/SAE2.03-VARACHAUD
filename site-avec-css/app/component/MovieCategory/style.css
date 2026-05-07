@@ -1,0 +1,30 @@
+.category {
+  padding: 2rem 0;
+}
+
+.category__title {
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem;
+  padding: 0 1rem 0 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  font-weight: 700;
+  border-left: 0.25rem solid var(--color-accent);
+
+  @media (min-width: 64rem) {
+    padding: 0 2rem 0 2.5rem;
+  }
+}
+
+.category__movies {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 0 1rem 1rem;
+
+  @media (min-width: 64rem) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 0 2rem 2rem;
+  }
+}

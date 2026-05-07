@@ -1,0 +1,41 @@
+.movieDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.movieDetail__image {
+  width: 100%;
+  max-width: 20rem;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.movieDetail__title {
+  margin: 0;
+}
+
+.movieDetail__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.movieDetail__director {
+  margin: 0;
+  font-style: italic;
+}
+
+.movieDetail__description {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.movieDetail__trailer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 0.5rem;
+}

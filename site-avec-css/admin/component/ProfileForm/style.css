@@ -1,0 +1,22 @@
+.addProfile {
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+.addProfile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.addProfile__form input,
+.addProfile__form select {
+  padding: 0.4rem;
+  font-size: 1rem;
+}
+
+.addProfile__form input[type="button"] {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}

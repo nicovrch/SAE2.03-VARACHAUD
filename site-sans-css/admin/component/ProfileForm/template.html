@@ -1,0 +1,18 @@
+<div class="addProfile">
+    <h2 class="addProfile__title"># Ajouter un profil</h2>
+    <form class="addProfile__form">
+
+        <input required type="text" name="name" placeholder="Nom du profil">
+
+        <select required name="min_age">
+            <option value="">-- Restriction d'âge --</option>
+            <option value="0">Tous publics</option>
+            <option value="12">12 ans et plus</option>
+            <option value="16">16 ans et plus</option>
+            <option value="18">18 ans et plus</option>
+        </select>
+
+        <input onclick="{{handler}}" type="button" value="Ajouter le profil" name="todo">
+
+    </form>
+</div>

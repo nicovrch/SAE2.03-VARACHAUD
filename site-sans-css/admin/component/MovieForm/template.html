@@ -1,0 +1,38 @@
+<div class="addMovie">
+    <h2 class="addMovie__title"># Ajouter un film</h2>
+    <form class="addMovie__form">
+
+        <input required type="text" name="name" placeholder="Nom du film">
+
+        <input required type="number" name="year" placeholder="Année" min="1900" max="2100">
+
+        <input required type="number" name="length" placeholder="Durée (minutes)" min="1">
+
+        <textarea required name="description" placeholder="Description"></textarea>
+
+        <input required type="text" name="director" placeholder="Réalisateur">
+
+        <select required name="id_category">
+            <option value="">-- Catégorie --</option>
+            <option value="1">Action</option>
+            <option value="2">Comédie</option>
+            <option value="3">Drame</option>
+            <option value="4">Science-fiction</option>
+            <option value="5">Animation</option>
+            <option value="6">Horreur</option>
+            <option value="7">Aventure</option>
+            <option value="8">Fantaisie</option>
+            <option value="9">Documentaire</option>
+        </select>
+
+        <input required type="text" name="image" placeholder="Nom du fichier image (ex: film.jpg)">
+
+        <input required type="url" name="trailer"
+            placeholder="URL YouTube embed (ex: https://www.youtube.com/embed/xxx)">
+
+        <input required type="number" name="min_age" placeholder="Âge minimum" min="0" max="18">
+
+        <input onclick="{{handler}}" type="button" value="Ajouter le film" name="todo">
+
+    </form>
+</div>

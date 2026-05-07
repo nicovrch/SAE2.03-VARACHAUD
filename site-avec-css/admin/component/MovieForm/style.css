@@ -1,0 +1,23 @@
+.addMovie {
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+.addMovie__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.addMovie__form input,
+.addMovie__form select,
+.addMovie__form textarea {
+  padding: 0.4rem;
+  font-size: 1rem;
+}
+
+.addMovie__form input[type="button"] {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
